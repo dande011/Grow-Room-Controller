@@ -40,7 +40,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   //Refresh temperature
   //inTemp = getInTemp();
-  //Serial.print("I'm doing it!!\n");
+  //Serial.print(inTemp);
 
   if ( (inTemp <= tempSet + tempRng) && (inTemp >= tempSet - tempRng)){
     heat(0);
