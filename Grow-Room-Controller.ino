@@ -2,8 +2,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-
-#define OLED_RESET 4
+#include <DHT.h>
 
 #include "definitions.h"
 #include "displaySetup.h"
@@ -14,7 +13,6 @@ void heat(bool state);
 void cool(bool state);
 
 void setup() {
-  // put your setup code here, to run once:
   //temp probes
   pinMode(inTempProbe, INPUT);
   pinMode(outTempProbe, INPUT);
@@ -25,13 +23,17 @@ void setup() {
   //start the display
   displaySetup();
 
+  //start the temperature sensor
+  dht.begin();
+
   //debug setup
   pinMode(ledPin, OUTPUT);
   Serial.begin(9600);
 
+  //Display finished setup on screen before starting loop
   display.println("Finished Setup");
   display.display();
-  delay(1000);
+  delay(1500);
   display.clearDisplay();
   display.display();
 }
