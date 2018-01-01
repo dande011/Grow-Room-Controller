@@ -5,7 +5,7 @@
 DHT dht(DHTPIN, DHTTYPE);
 
 //Default settings
-int tempSet = 65;
+int tempSet = 70;
 int tempRng = 5;
 
 //Variables
