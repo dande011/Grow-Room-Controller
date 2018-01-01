@@ -6,13 +6,13 @@
 
 #include "definitions.h"
 #include "displaySetup.h"
+#include "menu.h"
 
 //function prototypes
-int getInTemp();
-int getOutTemp();
+int getTemp();
 void heat(bool state);
 void cool(bool state);
-void sendToDisplay(int temp);
+void updateDisplay();
 
 void setup() {
   //temp probes
@@ -39,6 +39,7 @@ void setup() {
   display.setCursor(0,0);
   display.display();
 }
+/* --------------------- END SETUP --------------------- */
 
 void loop() {
   unsigned long currentMillis = millis();
@@ -46,48 +47,62 @@ void loop() {
     previousMillis = currentMillis;
     
     //Refresh temperature
-    inTemp = getInTemp();
-    Serial.print(inTemp);
-    sendToDisplay(inTemp);
+    getTemp();
+//    Serial.print(inTemp);
+    updateDisplay();
     
     if ( (inTemp <= tempSet + tempRng) && (inTemp >= tempSet - tempRng)){
-      heat(0);
-      cool(0);
+      Serial.println("Within Range");
+      heat(LOW);
+      cool(LOW);
     }
     if (inTemp > tempSet + tempRng){
-      cool(1);
-      heat(0);
+      Serial.println("Too Hot");
+      cool(HIGH);
+      heat(LOW);
     }
     else if (inTemp < tempSet - tempRng){
-      heat(1);
-      cool(0);
+      Serial.println("Too Cold");
+      heat(HIGH);
+      cool(LOW);
     }
   }
 }
+/* --------------------- END LOOP --------------------- */
 
-int getInTemp() {
+int getTemp() {
   float t = dht.readTemperature(true);
-  if (isnan(t))
+  float h = dht.readHumidity();
+  if (isnan(t) || isnan(h))
     Serial.println("Failed to read from DHT sensor!");
+  else {
+    inTemp = floor(t);
+    inHumid = floor(h);
+  }
   return floor(t);
 }
 
-int getOutTemp(){
-  return digitalRead(outTempProbe);
-}
-
 void heat(bool state){
+  Serial.println("Heat: " + String(state));
+  heatStatus = state;
   digitalWrite(heaterPin,state);
   return;
 }
 
 void cool(bool state){
+  Serial.println("Cool: " + String(state));
+  coolStatus = state;
   digitalWrite(acPin,state);
   return;
 }
 
-void sendToDisplay(int inTemp){
-  display.print(inTemp);
+void updateDisplay(){
+  display.clearDisplay();
+  display.setCursor(0,0);
+  display.println("Set temp: " + String(tempSet) + "  Rng: " + String(tempRng));
+  display.println("In Temp:  " + String(inTemp) + "; " + String(inHumid) + '%');
+  display.println("Out Temp: " + String(outTemp) + "; " + String(outHumid) + '%');
+  display.println("Heat: " + String(heatStatus) + "  Cool: " + String(coolStatus));
   display.display();
   return;
 }
