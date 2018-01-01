@@ -59,7 +59,10 @@ void loop() {
 }
 
 int getInTemp() {
-  return digitalRead(inTempProbe);
+  float t = dht.readTemperature(true)
+  if (isnan(t))
+    Serial.println("Failed to read from DHT sensor!");
+  return floor(t);
 }
 
 int getOutTemp(){
