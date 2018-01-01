@@ -54,12 +54,16 @@ void loop() {
   }
   else if (inTemp < tempSet - tempRng){
     heat(1);
-    cool(0); 
+    cool(0);
   }
 }
 
 int getInTemp() {
   return digitalRead(inTempProbe);
+}
+
+int getOutTemp(){
+  return digitalRead(outTempProbe);
 }
 
 void heat(bool state){
