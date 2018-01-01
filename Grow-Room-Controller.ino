@@ -7,14 +7,15 @@
 #include "definitions.h"
 #include "displaySetup.h"
 
+//function prototypes
 int getInTemp();
 int getOutTemp();
 void heat(bool state);
 void cool(bool state);
+void sendToDisplay(int temp);
 
 void setup() {
   //temp probes
-  pinMode(inTempProbe, INPUT);
   pinMode(outTempProbe, INPUT);
   //relay setups
   pinMode(heaterPin, OUTPUT);
@@ -35,31 +36,37 @@ void setup() {
   display.display();
   delay(1500);
   display.clearDisplay();
+  display.setCursor(0,0);
   display.display();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  //Refresh temperature
-  //inTemp = getInTemp();
-  //Serial.print(inTemp);
-
-  if ( (inTemp <= tempSet + tempRng) && (inTemp >= tempSet - tempRng)){
-    heat(0);
-    cool(0);
-  }
-  if (inTemp > tempSet + tempRng){
-    cool(1);
-    heat(0);
-  }
-  else if (inTemp < tempSet - tempRng){
-    heat(1);
-    cool(0);
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis >= interval){
+    previousMillis = currentMillis;
+    
+    //Refresh temperature
+    inTemp = getInTemp();
+    Serial.print(inTemp);
+    sendToDisplay(inTemp);
+    
+    if ( (inTemp <= tempSet + tempRng) && (inTemp >= tempSet - tempRng)){
+      heat(0);
+      cool(0);
+    }
+    if (inTemp > tempSet + tempRng){
+      cool(1);
+      heat(0);
+    }
+    else if (inTemp < tempSet - tempRng){
+      heat(1);
+      cool(0);
+    }
   }
 }
 
 int getInTemp() {
-  float t = dht.readTemperature(true)
+  float t = dht.readTemperature(true);
   if (isnan(t))
     Serial.println("Failed to read from DHT sensor!");
   return floor(t);
@@ -71,10 +78,18 @@ int getOutTemp(){
 
 void heat(bool state){
   digitalWrite(heaterPin,state);
+  return;
 }
 
 void cool(bool state){
   digitalWrite(acPin,state);
+  return;
+}
+
+void sendToDisplay(int inTemp){
+  display.print(inTemp);
+  display.display();
+  return;
 }
 //eof
 
