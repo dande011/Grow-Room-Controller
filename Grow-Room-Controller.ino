@@ -4,6 +4,8 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
+#include <ClickEncoder.h>
+#include <TimerOne.h>
 
 #include "definitions.h"
 #include "displaySetup.h"
@@ -39,6 +41,9 @@ void setup() {
   display.clearDisplay();
   display.setCursor(0,0);
   display.display();
+
+  //Run menu setup to start encoder
+  menuSetup();
 }
 /* --------------------- END SETUP --------------------- */
 

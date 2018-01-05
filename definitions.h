@@ -4,6 +4,9 @@
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
+ClickEncoder *encoder;
+int16_t last, value;
+
 //Default settings
 int tempSet = 70;
 int tempRng = 5;
@@ -23,8 +26,12 @@ unsigned long previousMillis = 0;
 
 //Pin # Settings
 int outTempProbe = 0;
-int heaterPin = 3;
-int acPin = 4;
+int heaterPin = 0; //todo 3
+int acPin = 0; //todo 4
 
 int ledPin = 13;
+
+int encDT = 4;
+int encCLK = 5;
+int encSW = 3;
 
