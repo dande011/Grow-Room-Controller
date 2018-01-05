@@ -2,6 +2,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include <Adafruit_Sensor.h>
 #include <DHT.h>
 
 #include "definitions.h"
@@ -85,14 +86,14 @@ int getTemp() {
 void heat(bool state){
   Serial.println("Heat: " + String(state));
   heatStatus = state;
-  digitalWrite(heaterPin,state);
+  digitalWrite(heaterPin,!state);
   return;
 }
 
 void cool(bool state){
   Serial.println("Cool: " + String(state));
   coolStatus = state;
-  digitalWrite(acPin,state);
+  digitalWrite(acPin,!state);
   return;
 }
 

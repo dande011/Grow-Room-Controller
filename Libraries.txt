@@ -1,2 +1,8 @@
+Adafruit GFX Library
+Adafruit SSD1306
 Adafruit unified sensor
-dht11
+dht11 sensor library
+
+Board: Arduino Pro or Pro Mini
+ATmega328
+PORT
