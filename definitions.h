@@ -23,8 +23,8 @@ unsigned long previousMillis = 0;
 
 //Pin # Settings
 int outTempProbe = 0;
-int heaterPin = 0;
-int acPin = 0;
+int heaterPin = 3;
+int acPin = 4;
 
 int ledPin = 13;
 
