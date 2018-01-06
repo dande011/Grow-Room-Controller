@@ -20,5 +20,5 @@ void menu(){
 }
 
 void timerIsr() {
-//  encoder->service();
+  encoder->service();
 }

@@ -4,34 +4,44 @@
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
+#define DEFAULT_TEXT_SIZE 1
+
 ClickEncoder *encoder;
-int16_t last, value;
 
 //Default settings
-int tempSet = 70;
-int tempRng = 5;
+short tempSet = 70;
+short tempRng = 5;
 
 //Variables
 bool heatStatus = LOW;
 bool coolStatus = LOW;
 
 //Calibration Settings
-int interval = 1000;
-int inTemp = 0;
-int inHumid = 0;
-int outTemp = 0;
-int outHumid = 0;
+short interval = 1000;
+short inTemp = 0;
+short inHumid = 0;
+short outTemp = 0;
+short outHumid = 0;
 unsigned long previousMillis = 0;
 
 
 //Pin # Settings
-int outTempProbe = 0;
-int heaterPin = 0; //todo 3
-int acPin = 0; //todo 4
+short outTempProbe = 0;
+short heaterPin = 0; //todo 3
+short acPin = 0; //todo 4
 
-int ledPin = 13;
+short ledPin = 13;
 
-int encDT = 4;
-int encCLK = 5;
-int encSW = 3;
+short encDT = 8;
+short encCLK = 9;
+short encSW = 7;
+
+
+//Menu Variables
+#define ITEMS 3
+char menuItem0[16] = "Set Temperature";
+char menuItem1[114] = "Temperature Range";
+char exitMenuItem[5] = "Exit";
+char *pointer[ITEMS];
+short *pointer2[ITEMS];
 
