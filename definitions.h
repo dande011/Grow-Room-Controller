@@ -27,8 +27,8 @@ unsigned long previousMillis = 0;
 
 //Pin # Settings
 short outTempProbe = 0;
-short heaterPin = 0; //todo 3
-short acPin = 0; //todo 4
+short heaterPin = 5;
+short acPin = 4;
 
 short ledPin = 13;
 
